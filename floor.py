@@ -1,27 +1,19 @@
 import time
 from engine import Intent, Player, Enemy, Card
 from numpy import random
-p = Player()
-e = Enemy()
 
 def sort_key_func(card):
     return card.block
 
 
-def chooseCards(player, enemy):
-    player.hand.sort(key=sort_key_func, reverse=True)
-    print('---player turn---')
-    for card in player.hand:
-        print('---looking at %s card---' % card.name)
-        # play it if it has block and the we need more block
-        if enemy.current_intent.attack > player.block and player.energy >= card.cost and card.block > 0:
-            player.play(card, e)
-        # if we dont need it, we should attack the enemy
-        if card.attack > 0:
-            player.play(card, e)
 
 class Floor():
-    def __init__(self, player = p, enemy = e):
+    def __init__(self, prev_floor):
+        self.prev_floor = prev_floor
+
+class FightFloor(Floor):
+    def __init__(self, prev_floor, player, enemy):
+        Floor.__init__(self, prev_floor)
         self.player = player
         self.enemy = enemy
     def run_sim(self, callback):
@@ -57,6 +49,3 @@ class Floor():
         print('---FINISHED---')
         print(self.player)
         print(self.enemy)
-
-f = Floor()
-f.run_sim(chooseCards)

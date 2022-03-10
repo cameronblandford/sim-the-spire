@@ -1,9 +1,4 @@
-# my new engine!
 import random
-
-class Move:
-    damage = 5
-    vuln = False
 
 class Intent:
     def __init__(self):
@@ -25,8 +20,10 @@ class Enemy:
         self.block = 0
         self.intents = [attack_intent, block_intent]
         self.current_intent = None
+
     def __repr__(self):
         return "%s: (%s hp) (%s block)" % (self.name, self.hp, self.block)
+
     def move(self, p):
         self.block += self.current_intent.block
         p.block -= self.current_intent.attack
@@ -72,27 +69,33 @@ class Player:
         self.name = 'Clam'
         self.energy = 3
         self.max_energy = 3
+
     def discard(self, card):
         self.hand.remove(card)
         self.discardpile.append(card)
+
     def check_reshuffle(self):
         if not self.drawpile:
             print('drawpile empty, reshuffling')
             self.drawpile = self.discardpile.copy()
             random.shuffle(self.drawpile)
             self.discardpile = []
+
     def draw(self):
         self.check_reshuffle()
         drawn_card = self.drawpile.pop()
         self.hand = self.hand + [drawn_card]
         print('drew a new card: %s' % drawn_card)
         self.check_reshuffle()
+
     def draw_n(self, n):
         for _ in range(0, n):
             self.draw()
+
     def clear_hand(self):
         self.discardpile = self.discardpile + self.hand.copy()
         self.hand = []
+
     def play(self, card, target):
         if (self.energy < card.cost):
             print('NOT ENOUGH ENERGY')
@@ -109,5 +112,6 @@ class Player:
         # print('%s takes %s damage (%s hp left)!' % (target.name, card.attack, target.hp))
         # print('%s gains %s block (%s block total)!' % (self.name, card.block, self.block))
         self.discard(card)
+
     def __repr__(self):
         return "%s: (%s hp) (%s block)" % (self.name, self.hp, self.block)
