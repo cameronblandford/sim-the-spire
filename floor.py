@@ -1,11 +1,5 @@
 import time
-from engine import Intent, Player, Enemy, Card
 from numpy import random
-
-def sort_key_func(card):
-    return card.block
-
-
 
 class Floor():
     def __init__(self, prev_floor):
@@ -43,7 +37,7 @@ class FightFloor(Floor):
             # enemy moves
             print('---enemy turn---')
             self.enemy.block = 0
-            self.enemy.move(p)
+            self.enemy.move(self.player)
             turn += 1
             time.sleep(1)
         print('---FINISHED---')

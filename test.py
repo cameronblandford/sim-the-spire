@@ -1,4 +1,5 @@
-from engine import Player, Enemy
+from player import Player
+from enemy import Enemy
 from floor import FightFloor
 
 def sort_key_func(card):
